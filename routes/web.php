@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KidController;
 
@@ -18,8 +19,23 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('kids', KidController::class);
-
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['middleware' => 'acl'], function () {
+    Route::resource('kids', KidController::class);
+});
+
+Route::group(['middleware' => 'auth', 'namespace' => 'Manager', 'prefix' => 'manager'], function(){
+    Route::get('/', function(){
+        return redirect()->route('users.index');
+    });
+
+    Route::resource('roles', 'RoleController');
+    Route::get('roles/{role}/resources', 'RoleController@syncResources')->name('roles.resources');
+    Route::put('roles/{role}/resources', 'RoleController@updateSyncResources')->name('roles.resources.update');
+
+    Route::resource('users', 'UserController');
+    Route::resource('resources', 'ResourceController');
+});
