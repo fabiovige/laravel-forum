@@ -9,15 +9,12 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -41,10 +38,10 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Dropdown
+                                Gerenciamento
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                <li><a class="dropdown-item" @if(request()->is('users*')) active @endif" href="{{ route('users.index') }}">Usuários</a></li>
                                 <li><a class="dropdown-item" href="#">Another action</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="#">Something else here</a></li>
@@ -93,9 +90,20 @@
 
         <main class="py-4">
             <div class="container">
+
+                <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        @yield('breadcrumb')
+                    </ol>
+                </nav>
+                @include('layouts.flash-message')
                 @yield('content')
             </div>
         </main>
     </div>
+
+    <!-- Scripts -->
+    <script src="{{ mix('js/app.js') }}" defer></script>
+
 </body>
 </html>

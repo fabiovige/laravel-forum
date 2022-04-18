@@ -15,8 +15,8 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::factory(2)->create()->each( function ($user) {
-            $kids = Kid::factory(3)->make();
+        User::factory(20)->create()->each( function ($user) {
+            $kids = Kid::factory(6)->make();
             $user->kids()->saveMany($kids);
         });
     }

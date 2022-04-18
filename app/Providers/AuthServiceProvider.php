@@ -26,12 +26,12 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        $resources = Resource::all();
-
-        foreach($resources as $resource) {
-            Gate::define($resource->resource, function ($user) use ($resource) {
-                return $resource->roles->contains($user->role);
-            });
-        }
+//        $resources = Resource::all();
+//
+//        foreach($resources as $resource) {
+//            Gate::define($resource->resource, function ($user) use ($resource) {
+//                return $resource->roles->contains($user->role);
+//            });
+//        }
     }
 }

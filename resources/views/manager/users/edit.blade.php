@@ -1,21 +1,25 @@
-@extends('layouts.manager')
+@extends('layouts.app')
+
+@section('breadcrumb')
+    <li class="breadcrumb-item" aria-current="page"><a href="{{ route('users.index') }}">Usuários</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Editar</li>
+@endsection
 
 @section('content')
     <div class="row">
-        <div class="col-md-12 mt-4 d-flex justify-content-between align-items-center">
-            <h2>Editar Usuário</h2>
+        <div class="col-12">
+            <h2>Editar</h2>
         </div>
     </div>
-
     <div class="row">
-        <div class="col-md-12">
-            <hr>
-            <form action="{{route('users.update', $user->id)}}"  method="post">
+        <div class="col-12">
+            <form action="{{route('users.update', $user->id)}}" method="post">
                 @csrf
                 @method('PUT')
-                <div class="form-group">
-                    <label>Nome Completo</label>
-                    <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" placeholder="Ex.: Listar Tópicos" value="{{$user->name}}">
+                <div class="form-group mt-3">
+                    <label>Nome completo</label>
+                    <input type="text" class="form-control @error('name') is-invalid @enderror" name="name"
+                           placeholder="Ex.: Listar Tópicos" value="{{$user->name}}">
                     @error('name')
                     <div class="invalid-feedback">
                         {{$message}}
@@ -23,8 +27,8 @@
                     @enderror
                 </div>
 
-                <div class="form-group">
-                    <label>Email</label>
+                <div class="form-group mt-3">
+                    <label>E-mail</label>
                     <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{$user->email}}">
                     @error('email')
                     <div class="invalid-feedback">
@@ -33,41 +37,22 @@
                     @enderror
                 </div>
 
-                <div class="form-group">
-                    <label>Senha</label>
-                    <input type="password" class="form-control @error('password') is-invalid @enderror" name="password">
-                    @error('password')
-                    <div class="invalid-feedback">
-                        {{$message}}
-                    </div>
-                    @enderror
-                </div>
-
-                <div class="form-group">
-                    <label>Confirmar Senha</label>
-                    <input type="password" class="form-control" name="password_confirmation">
-                </div>
-
-                <div class="form-group">
-                    <label>Papéis</label>
+                <div class="form-group mt-3">
+                    <label>Papél</label>
                     <select name="role" class="form-control">
-                        <option value="">Selecionar o Papél do Usuário</option>
-
+                        <option value="">Selecionar o papél</option>
                         @foreach($roles as $role)
-                            <option value="{{$role->id}}"
-                                    @if($user->role()->count() && $user->role->id == $role->id) selected @endif
-                            >{{$role->name}}</option>
+                            <option value="{{$role->id}}" @if($user->role()->count() && $user->role->id == $role->id) selected @endif>
+                                {{$role->name}}
+                            </option>
                         @endforeach
-
                     </select>
                 </div>
 
-
-                <div class="form-group">
-                    <button class="btn btn-success">Atualizar Usuário</button>
+                <div class="form-group mt-3">
+                    <button class="btn btn-success">Atualizar</button>
                 </div>
             </form>
         </div>
     </div>
-
 @endsection

@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\KidController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,22 +19,29 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+//
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//
+//Route::group(['middleware' => 'acl'], function () {
+//    Route::resource('kids', KidController::class);
+//});
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::resource('users', \App\Http\Controllers\UserController::class);
 
-Route::group(['middleware' => 'acl'], function () {
-    Route::resource('kids', KidController::class);
-});
 
-Route::group(['middleware' => 'auth', 'namespace' => 'Manager', 'prefix' => 'manager'], function(){
-    Route::get('/', function(){
-        return redirect()->route('users.index');
-    });
+//Route::prefix('/users')->name('user.')->middleware(['acl'])->group(function () {
+//    Route::get('/index', [UserController::class] );
+//});
 
-    Route::resource('roles', 'RoleController');
-    Route::get('roles/{role}/resources', 'RoleController@syncResources')->name('roles.resources');
-    Route::put('roles/{role}/resources', 'RoleController@updateSyncResources')->name('roles.resources.update');
-
-    Route::resource('users', 'UserController');
-    Route::resource('resources', 'ResourceController');
-});
+//Route::group(['middleware' => 'auth', 'namespace' => 'Manager', 'prefix' => 'manager'], function () {
+//    Route::get('/', function(){
+//        return redirect()->route('users.index');
+//    });
+//
+//    Route::resource('roles', RoleController::class);
+//    Route::get('roles/{role}/resources', [RoleController::class, 'syncResources'])->name('roles.resources');
+//    Route::put('roles/{role}/resources', [RoleController::class, 'updateSyncResources'])->name('roles.resources.update');
+//
+//    Route::resource('users', UserController::class);
+//    Route::resource('resources', ResourceController::class);
+//});
